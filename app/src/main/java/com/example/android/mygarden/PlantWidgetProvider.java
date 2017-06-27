@@ -21,6 +21,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.example.android.mygarden.provider.PlantContract;
@@ -51,6 +52,10 @@ public class PlantWidgetProvider extends AppWidgetProvider {
         views.setImageViewResource(R.id.widget_plant_image, imgRes);
         // Widgets allow click handlers to only launch pending intents
         views.setOnClickPendingIntent(R.id.widget_plant_image, pendingIntent);
+
+        // set Visibility
+        if (showButton) views.setViewVisibility(R.id.widget_water_button, View.VISIBLE);
+        else views.setViewVisibility(R.id.widget_water_button, View.INVISIBLE);
         // Add the wateringservice click handler
         Intent wateringIntent = new Intent(context, PlantWateringService.class);
         wateringIntent.setAction(PlantWateringService.ACTION_WATER_PLANT);
