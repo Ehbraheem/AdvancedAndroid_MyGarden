@@ -53,9 +53,10 @@ public class PlantWateringService extends IntentService {
      *
      * @see IntentService
      */
-    public static void startActionWaterPlants(Context context) {
+    public static void startActionWaterPlants(Context context, long plantId) {
         Intent intent = new Intent(context, PlantWateringService.class);
         intent.setAction(ACTION_WATER_PLANT);
+        intent.putExtra(EXTRA_PLANT_ID, plantId);
         context.startService(intent);
     }
 
@@ -79,7 +80,9 @@ public class PlantWateringService extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_WATER_PLANT.equals(action)) {
-                handleActionWaterPlants();
+                long plantId = intent.getLongExtra(EXTRA_PLANT_ID,
+                        PlantContract.INVALID_PLANT_ID);
+                handleActionWaterPlants(plantId);
             } else if (ACTION_UPDATE_PLANT_WIDGETS.equals(action)) {
                 handleActionUpdatePlantWidgets();
             }
@@ -90,14 +93,17 @@ public class PlantWateringService extends IntentService {
      * Handle action WaterPlant in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionWaterPlants() {
-        Uri PLANTS_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_PLANTS).build();
+    private void handleActionWaterPlants(long plantId) {
+        Uri SINGLE_PLANT_URI = BASE_CONTENT_URI.buildUpon()
+                                    .appendPath(PATH_PLANTS)
+                                    .appendPath(String.valueOf(plantId))
+                                    .build();
         ContentValues contentValues = new ContentValues();
         long timeNow = System.currentTimeMillis();
         contentValues.put(PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME, timeNow);
         // Update only plants that are still alive
         getContentResolver().update(
-                PLANTS_URI,
+                SINGLE_PLANT_URI,
                 contentValues,
                 PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME + ">?",
                 new String[]{String.valueOf(timeNow - PlantUtils.MAX_AGE_WITHOUT_WATER)});
