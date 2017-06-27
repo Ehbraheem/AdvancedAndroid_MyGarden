@@ -31,7 +31,7 @@ public class PlantWidgetProvider extends AppWidgetProvider {
 
     // setImageViewResource to update the widget’s image
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                long plantId, boolean showButton, int imgRes, int appWidgetId) {
+                                int imgRes, long plantId, boolean showButton,  int appWidgetId) {
 
         // TODO (3): Set the click handler to open the DetailActivity for plant ID,
         // or the MainActivity if plant ID is invalid
@@ -69,9 +69,9 @@ public class PlantWidgetProvider extends AppWidgetProvider {
     // TODO (2): Modify updatePlantWidgets and updateAppWidget to pass the plant ID as well as a boolean
     // to show/hide the water button
     public static void updatePlantWidgets(Context context, AppWidgetManager appWidgetManager,
-                                          int imgRes, int[] appWidgetIds) {
+                                          int imgRes, long plantId, boolean showButton,  int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, imgRes, appWidgetId);
+            updateAppWidget(context, appWidgetManager, imgRes,plantId, showButton, appWidgetId);
         }
     }
 
