@@ -23,6 +23,7 @@ public class PlantWateringService extends IntentService {
 
     public static final String ACTION_WATER_PLANTS =
             "com.example.android.mygarden.action.water_plants";
+
     /**
      * Creates an IntentService.  Invoked by superclass's constructor.
      */
