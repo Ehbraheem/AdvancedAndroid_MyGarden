@@ -56,6 +56,8 @@ public class PlantWidgetProvider extends AppWidgetProvider {
         // set Visibility
         if (showButton) views.setViewVisibility(R.id.widget_water_button, View.VISIBLE);
         else views.setViewVisibility(R.id.widget_water_button, View.INVISIBLE);
+
+        views.setTextViewText(R.id.widget_plant_name, String.valueOf(plantId));
         // Add the wateringservice click handler
         Intent wateringIntent = new Intent(context, PlantWateringService.class);
         wateringIntent.setAction(PlantWateringService.ACTION_WATER_PLANT);
